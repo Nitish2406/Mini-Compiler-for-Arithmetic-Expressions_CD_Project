@@ -23,7 +23,7 @@ The project contains the source code and related files required to implement the
 3. Compile and execute the source code using the appropriate compiler.
 
 ## Author
-Nitish
+Nitish, Teja
 
 ## Repository
 https://github.com/Nitish2406/Mini-Compiler-for-Arithmetic-Expressions_CD_Project
