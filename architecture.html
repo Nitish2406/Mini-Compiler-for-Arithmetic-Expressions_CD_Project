@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compiler Architecture &amp; Theory | Mini Compiler</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="brand-wrapper">
+                <div class="brand-icon">&lt;/&gt;</div>
+                <div class="brand-title">
+                    <span>Mini Compiler</span>
+                </div>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Live Studio</a></li>
+                <li><a href="presentation.html">Presentation</a></li>
+                <li><a href="architecture.html" style="color: var(--accent-indigo);">Architecture</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="btn-theme-toggle" id="theme-toggle-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                    <span>Mode</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main style="padding: 48px 0;">
+        <div class="container" style="max-width: 1000px;">
+            <div style="margin-bottom: 32px;">
+                <span class="hero-subtitle">Documentation &amp; Reference</span>
+                <h1 style="font-size: 2.2rem; font-weight: 800; margin-top: 8px;">System Architecture &amp; Phase Pipeline</h1>
+                <p class="text-secondary">Comprehensive documentation of the compiler front-end and back-end pipeline.</p>
+            </div>
+
+            <!-- Pipeline Visual -->
+            <div class="arch-flow-diagram">
+                <div class="arch-node">
+                    <div class="arch-node-name">Source Input</div>
+                    <div class="arch-node-sub">"3 + 4 * 2"</div>
+                </div>
+                <div class="arch-arrow">&rarr;</div>
+                <div class="arch-node">
+                    <div class="arch-node-name">Lexer</div>
+                    <div class="arch-node-sub">Token Stream</div>
+                </div>
+                <div class="arch-arrow">&rarr;</div>
+                <div class="arch-node">
+                    <div class="arch-node-name">Parser</div>
+                    <div class="arch-node-sub">Parse Tree / AST</div>
+                </div>
+                <div class="arch-arrow">&rarr;</div>
+                <div class="arch-node">
+                    <div class="arch-node-name">Semantic Analyzer</div>
+                    <div class="arch-node-sub">Validated AST</div>
+                </div>
+                <div class="arch-arrow">&rarr;</div>
+                <div class="arch-node">
+                    <div class="arch-node-name">Code Generator</div>
+                    <div class="arch-node-sub">TAC &amp; Quadruples</div>
+                </div>
+                <div class="arch-arrow">&rarr;</div>
+                <div class="arch-node">
+                    <div class="arch-node-name">Executor (VM)</div>
+                    <div class="arch-node-sub">Computed Result</div>
+                </div>
+            </div>
+
+            <!-- Front-End vs Back-End -->
+            <div class="pipeline-cards-grid" style="margin-bottom: 36px;">
+                <div class="overview-card">
+                    <h3 style="color: var(--accent-indigo); margin-bottom: 10px;">Front-End Phases</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6;">
+                        The front-end is machine-independent and processes the source text:
+                    </p>
+                    <ul style="font-size: 0.88rem; margin: 12px 0 0 20px; color: var(--text-secondary);">
+                        <li><strong>Lexical Analysis:</strong> Converts character sequences into typed tokens (NUMBER, PLUS, MINUS, LPAREN, etc.).</li>
+                        <li><strong>Syntax Analysis:</strong> Parses tokens via Context-Free Grammar (CFG) rules into an Abstract Syntax Tree (AST).</li>
+                        <li><strong>Semantic Analysis:</strong> Type propagation (int vs float promotion) and pre-runtime division by zero verification.</li>
+                    </ul>
+                </div>
+                <div class="overview-card">
+                    <h3 style="color: var(--accent-cyan); margin-bottom: 10px;">Back-End Phases</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6;">
+                        The back-end takes the validated AST and prepares it for evaluation:
+                    </p>
+                    <ul style="font-size: 0.88rem; margin: 12px 0 0 20px; color: var(--text-secondary);">
+                        <li><strong>Intermediate Code Generation (ICG):</strong> Emits linear Three-Address Code with temporaries (<code>t1</code>, <code>t2</code>, ...).</li>
+                        <li><strong>Quadruple Records:</strong> Structured 4-tuples <code>[Operator, Argument 1, Argument 2, Result]</code>.</li>
+                        <li><strong>Virtual Machine / Executor:</strong> Executes TAC line by line with memory registers.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- CFG Section -->
+            <div class="overview-card" style="margin-bottom: 36px;">
+                <h3 style="margin-bottom: 14px;">Formal Grammar &amp; Precedence Climbing</h3>
+                <pre class="code-block" style="color: #38bdf8;"><code>// Context-Free Grammar (CFG)
+Expr   &rarr; Term (( '+' | '-' ) Term)*
+Term   &rarr; Power (( '*' | '/' ) Power)*
+Power  &rarr; Factor ( '^' Power )?     // Right-associative exponentiation
+Factor &rarr; '+' Factor | '-' Factor | NUMBER | '(' Expr ')'</code></pre>
+            </div>
+
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="index.html" class="btn-primary" style="text-decoration: none; display: inline-flex; padding: 12px 28px;">
+                    &larr; Return to Interactive Studio
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container footer-content">
+            <div><strong>Mini Compiler for Arithmetic Expressions</strong></div>
+            <div>Built by <strong>Nitish</strong> &bull; <strong>Teja</strong> &bull; <strong>Gagan</strong></div>
+        </div>
+    </footer>
+
+    <script>
+        const themeBtn = document.getElementById('theme-toggle-btn');
+        const savedTheme = localStorage.getItem('mini_compiler_theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        if (themeBtn) {
+            themeBtn.addEventListener('click', () => {
+                const current = document.documentElement.getAttribute('data-theme') || 'dark';
+                const next = current === 'dark' ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-theme', next);
+                localStorage.setItem('mini_compiler_theme', next);
+            });
+        }
+    </script>
+</body>
+</html>

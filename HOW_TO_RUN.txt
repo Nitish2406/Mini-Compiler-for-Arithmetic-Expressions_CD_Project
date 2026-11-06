@@ -1,0 +1,74 @@
+===================================================================
+     MINI COMPILER FOR ARITHMETIC EXPRESSIONS - HOW TO RUN
+===================================================================
+
+This project includes both an Interactive Web Studio (running on
+localhost) and a standalone Python CLI compiler.
+
+-------------------------------------------------------------------
+1. HOW TO RUN THE WEBSITE ON LOCALHOST (RECOMMENDED)
+-------------------------------------------------------------------
+
+Step 1: Open Terminal / PowerShell in this folder:
+        (In VS Code: Press Ctrl + ` or click Terminal -> New Terminal)
+
+Step 2: Run this command to start the local server:
+        
+        python -m http.server 3000
+
+Step 3: Open your web browser (Chrome, Edge, Firefox) and go to:
+        
+        http://localhost:3000
+
+        (You will see the address bar show: http://localhost:3000)
+
+To stop the server at any time:
+        Click in the terminal and press: Ctrl + C
+
+
+-------------------------------------------------------------------
+2. OTHER PAGES AVAILABLE ON LOCALHOST
+-------------------------------------------------------------------
+
+- Main Studio & Playground:
+  http://localhost:3000/index.html
+
+- 11-Slide Project Presentation (Fullscreen & Keyboard controls):
+  http://localhost:3000/presentation.html
+
+- Compiler Architecture & Formal Theory:
+  http://localhost:3000/architecture.html
+
+
+-------------------------------------------------------------------
+3. HOW TO RUN THE PYTHON COMPILER SCRIPT (TERMINAL)
+-------------------------------------------------------------------
+
+You can also run the compiler directly from terminal without a browser:
+
+1. Canonical expression from slides:
+   python mini_compiler.py "3 + 4 * (2 - 1)"
+
+2. Division-by-zero detection (Semantic error):
+   python mini_compiler.py "8 / (4 - 4)"
+
+3. Consecutive operators (Syntax error):
+   python mini_compiler.py "3 + * 4"
+
+4. Illegal characters (Lexical error):
+   python mini_compiler.py "3 + @ 4"
+
+5. Complex expression with powers and decimals:
+   python mini_compiler.py "2 ^ 3 * (5 - 1.5)"
+
+
+-------------------------------------------------------------------
+4. DIRECT BROWSER OPEN (WITHOUT LOCALHOST SERVER)
+-------------------------------------------------------------------
+
+If you ever don't want to run python http.server, you can simply
+double-click "index.html" in File Explorer to open it directly.
+
+===================================================================
+Project by: Nitish, Teja, Gagan
+===================================================================

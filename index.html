@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Compiler Studio | Arithmetic Expressions</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="brand-wrapper">
+                <div class="brand-icon">&lt;/&gt;</div>
+                <div class="brand-title">
+                    <span>Mini Compiler</span>
+                </div>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#studio">Studio</a></li>
+                <li><a href="presentation.html">Slides Deck ↗</a></li>
+                <li><a href="architecture.html">Architecture ↗</a></li>
+                <li><a href="#test-suite">Test Suite</a></li>
+                <li><a href="#source-code">Python Code</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="btn-theme-toggle" id="theme-toggle-btn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                    <span>Light</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO & CREDITS -->
+    <header class="hero-section">
+        <div class="container">
+            <h1 class="hero-title">Mini Compiler for Arithmetic Expressions</h1>
+            <p class="hero-desc">
+                Interactive 4-phase compiler studio: Lexical Analysis, Recursive-Descent Parsing (AST), Semantic Checks, and Three-Address Code with VM Execution.
+            </p>
+            <div class="team-pills-row">
+                <span style="font-size: 0.85rem; color: var(--text-muted); display: inline-flex; align-items: center; margin-right: 4px;">Created by</span>
+                <div class="team-pill"><span class="team-name">Nitish</span></div>
+                <div class="team-pill"><span class="team-name">Teja</span></div>
+                <div class="team-pill"><span class="team-name">Gagan</span></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- COMPILER STUDIO -->
+    <main class="studio-main" id="studio">
+        <div class="container">
+
+            <!-- Pipeline Phase Stepper -->
+            <div class="pipeline-stepper-wrap">
+                <div class="pipeline-stepper">
+                    <div class="step-card" id="step-lex">
+                        <div class="step-num">1</div>
+                        <div class="step-info"><span class="step-title">Lexical Analysis</span><span class="step-sub">Token Stream</span></div>
+                    </div>
+                    <div class="step-card" id="step-parse">
+                        <div class="step-num">2</div>
+                        <div class="step-info"><span class="step-title">Syntax Analysis</span><span class="step-sub">AST Tree</span></div>
+                    </div>
+                    <div class="step-card" id="step-semantic">
+                        <div class="step-num">3</div>
+                        <div class="step-info"><span class="step-title">Semantic Checks</span><span class="step-sub">Type &amp; Div-by-0</span></div>
+                    </div>
+                    <div class="step-card" id="step-codegen">
+                        <div class="step-num">4</div>
+                        <div class="step-info"><span class="step-title">Code Gen &amp; VM</span><span class="step-sub">TAC &amp; Execution</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Editor Input Box -->
+            <div class="editor-card">
+                <div class="input-bar-group">
+                    <div class="input-wrapper">
+                        <span class="input-prefix">&gt;</span>
+                        <input type="text" id="expr-input" class="expr-input-field" placeholder="e.g. 3 + 4 * (2 - 1)" value="3 + 4 * (2 - 1)" spellcheck="false" autocomplete="off">
+                    </div>
+                    <button class="btn-primary" id="btn-compile">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span>Compile &amp; Run</span>
+                    </button>
+                    <button class="btn-secondary" id="btn-clear">Clear</button>
+                </div>
+                <div class="presets-row">
+                    <span class="presets-label">Examples:</span>
+                    <button class="preset-chip" data-expr="3 + 4 * (2 - 1)">3 + 4 * (2 - 1)</button>
+                    <button class="preset-chip" data-expr="2 + 3 * 4">2 + 3 * 4</button>
+                    <button class="preset-chip" data-expr="(2 + 3) * 4">(2 + 3) * 4</button>
+                    <button class="preset-chip" data-expr="2 ^ 3 ^ 2">2 ^ 3 ^ 2</button>
+                    <button class="preset-chip" data-expr="10.5 + 4.5 * 2">10.5 + 4.5 * 2</button>
+                    <button class="preset-chip" data-expr="8 / (4 - 4)">8 / (4 - 4) [Semantic Err]</button>
+                    <button class="preset-chip" data-expr="3 + * 4">3 + * 4 [Syntax Err]</button>
+                    <button class="preset-chip" data-expr="3 + @ 4">3 + @ 4 [Lexical Err]</button>
+                </div>
+            </div>
+
+            <!-- Status Banner & Error Diagnostics -->
+            <div id="status-banner" class="status-banner banner-success">
+                <div class="banner-icon">✓</div>
+                <div class="banner-text"><strong>Compilation Ready</strong><span>Ready for evaluation.</span></div>
+                <div class="banner-result-pill">Result: 7</div>
+            </div>
+            <div id="error-box" class="error-box hidden"></div>
+
+            <!-- Tab Navigation -->
+            <div class="tabs-nav">
+                <button class="tab-btn active" data-tab="overview">Overview</button>
+                <button class="tab-btn" data-tab="tokens">Phase 1: Lexer</button>
+                <button class="tab-btn" data-tab="ast">Phase 2: Parser (AST)</button>
+                <button class="tab-btn" data-tab="semantic">Phase 3: Semantics</button>
+                <button class="tab-btn" data-tab="tac">Phase 4: TAC &amp; Quadruples</button>
+                <button class="tab-btn" data-tab="vm">Virtual Machine Debugger</button>
+            </div>
+
+            <!-- Tabs Content -->
+            <div class="tab-content-wrapper">
+
+                <!-- TAB 1: OVERVIEW -->
+                <div class="tab-pane active" id="tab-overview">
+                    <div class="pipeline-cards-grid">
+                        <div class="overview-card">
+                            <div class="overview-card-header"><h3>1. Lexical Analysis</h3><span class="tab-badge">Tokens</span></div>
+                            <p class="text-secondary" style="font-size: 0.9rem; margin-bottom: 12px;">Scans characters, generates typed tokens, strips whitespace, and flags illegal characters.</p>
+                            <div class="token-chips-container" id="overview-token-preview" style="padding: 10px; margin-bottom: 0;"></div>
+                        </div>
+                        <div class="overview-card">
+                            <div class="overview-card-header"><h3>2. Syntax Analysis (AST)</h3><span class="tab-badge">Parse Tree</span></div>
+                            <p class="text-secondary" style="font-size: 0.9rem; margin-bottom: 12px;">Applies recursive-descent parsing on formal CFG to build the Abstract Syntax Tree.</p>
+                            <div style="background: var(--bg-tertiary); padding: 12px; border-radius: var(--radius-sm); font-size: 0.85rem; font-family: var(--font-mono); color: var(--accent-indigo);">
+                                Expr &rarr; Term (('+' | '-') Term)* &bull; Term &rarr; Power (('*' | '/') Power)*
+                            </div>
+                        </div>
+                        <div class="overview-card">
+                            <div class="overview-card-header"><h3>3. Semantic Verification</h3><span class="tab-badge">Validations</span></div>
+                            <p class="text-secondary" style="font-size: 0.9rem; margin-bottom: 12px;">Validates node types, handles type promotion, and statically catches division-by-zero.</p>
+                            <div style="background: var(--bg-tertiary); padding: 12px; border-radius: var(--radius-sm); font-size: 0.85rem;">
+                                <span style="color: var(--accent-emerald); font-weight: 600;">✓ Type promotion</span> &nbsp;|&nbsp;
+                                <span style="color: var(--accent-emerald); font-weight: 600;">✓ Pre-runtime division check</span>
+                            </div>
+                        </div>
+                        <div class="overview-card">
+                            <div class="overview-card-header"><h3>4. Code Generation &amp; VM</h3><span class="tab-badge">TAC &amp; Result</span></div>
+                            <p class="text-secondary" style="font-size: 0.9rem; margin-bottom: 12px;">Translates AST into Three-Address Code and evaluates instructions sequentially.</p>
+                            <div style="background: var(--bg-tertiary); padding: 12px; border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 0.85rem; color: #38bdf8;">
+                                t1 = 2 - 1 &bull; t2 = 4 * t1 &bull; t3 = 3 + t2
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 2: LEXER -->
+                <div class="tab-pane" id="tab-tokens">
+                    <h3 style="font-size: 1.1rem; margin-bottom: 12px;">Tokenized Stream</h3>
+                    <div id="token-chips-view"></div>
+                    <h3 style="font-size: 1.1rem; margin-bottom: 12px;">Token Symbol Table</h3>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead><tr><th>Index</th><th>Lexeme</th><th>Token Type</th><th>Value</th><th>Span</th></tr></thead>
+                            <tbody id="token-table-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- TAB 3: PARSER & AST -->
+                <div class="tab-pane" id="tab-ast">
+                    <div class="ast-layout-grid">
+                        <div class="ast-panel"><div id="ast-container"></div></div>
+                        <div class="grammar-panel">
+                            <div class="grammar-card">
+                                <h4>Context-Free Grammar (CFG)</h4>
+                                <pre class="grammar-code"><code>Expr   &rarr; Term (( '+' | '-' ) Term)*
+Term   &rarr; Power (( '*' | '/' ) Power)*
+Power  &rarr; Factor ( '^' Power )?
+Factor &rarr; '+' Factor | '-' Factor 
+       | NUMBER | '(' Expr ')'</code></pre>
+                            </div>
+                            <div class="grammar-card">
+                                <h4>Derivation Steps Log</h4>
+                                <ul class="derivation-log-list" id="derivation-steps-log"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 4: SEMANTICS -->
+                <div class="tab-pane" id="tab-semantic">
+                    <div class="semantic-grid">
+                        <div class="semantic-card">
+                            <div class="semantic-card-header">
+                                <h3 style="font-size: 1.1rem;">Semantic Assertions &amp; Checks</h3>
+                                <span class="promoted-badge" id="promoted-type-badge">Type: int</span>
+                            </div>
+                            <ul class="semantic-checks-list" id="semantic-checks-list"></ul>
+                        </div>
+                        <div class="semantic-card">
+                            <div class="semantic-card-header"><h3 style="font-size: 1.1rem;">Operator Precedence Table</h3></div>
+                            <div class="table-responsive">
+                                <table class="data-table precedence-table" id="precedence-table">
+                                    <thead><tr><th>Level</th><th>Operator</th><th>Description</th><th>Associativity</th></tr></thead>
+                                    <tbody>
+                                        <tr data-ops="( )"><td>4 (High)</td><td><code>( )</code></td><td>Parentheses</td><td>Non-associative</td></tr>
+                                        <tr data-ops="^"><td>3</td><td><code>^</code></td><td>Power</td><td>Right to Left</td></tr>
+                                        <tr data-ops="* /"><td>2</td><td><code>*</code> , <code>/</code></td><td>Multiply / Divide</td><td>Left to Right</td></tr>
+                                        <tr data-ops="+ -"><td>1 (Low)</td><td><code>+</code> , <code>-</code></td><td>Add / Subtract</td><td>Left to Right</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 5: TAC & QUADRUPLES -->
+                <div class="tab-pane" id="tab-tac">
+                    <div class="tac-split-grid">
+                        <div class="semantic-card">
+                            <div class="code-box-header">
+                                <h3 style="font-size: 1.1rem;">Three-Address Code (TAC)</h3>
+                                <button class="btn-sm-copy" id="btn-copy-tac">Copy TAC</button>
+                            </div>
+                            <pre class="code-block" id="tac-code-block">// Generating TAC...</pre>
+                        </div>
+                        <div class="semantic-card">
+                            <div class="code-box-header"><h3 style="font-size: 1.1rem;">Quadruples [OP, ARG1, ARG2, RES]</h3></div>
+                            <div class="table-responsive">
+                                <table class="data-table">
+                                    <thead><tr><th>OP</th><th>ARG 1</th><th>ARG 2</th><th>RESULT</th></tr></thead>
+                                    <tbody id="quadruples-table-body"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 6: VM DEBUGGER -->
+                <div class="tab-pane" id="tab-vm">
+                    <div class="vm-panel">
+                        <div class="vm-controls-bar">
+                            <div class="vm-btn-group">
+                                <button class="btn-vm btn-vm-primary" id="vm-play-btn">Auto-Play</button>
+                                <button class="btn-vm" id="vm-step-prev">Back</button>
+                                <button class="btn-vm" id="vm-step-next">Next</button>
+                                <button class="btn-vm" id="vm-reset-btn">Reset</button>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <label style="font-size: 0.85rem; color: var(--text-muted);" for="vm-speed-select">Speed:</label>
+                                <select id="vm-speed-select" style="background: var(--bg-tertiary); color: var(--text-primary); border: 1px solid var(--border-color); padding: 4px 8px; border-radius: var(--radius-sm);">
+                                    <option value="1200">Slow (1.2s)</option>
+                                    <option value="800" selected>Normal (0.8s)</option>
+                                    <option value="400">Fast (0.4s)</option>
+                                </select>
+                                <span class="vm-stepper-label" id="vm-step-counter">0 / 0</span>
+                            </div>
+                        </div>
+                        <div class="vm-layout-split">
+                            <div>
+                                <h4 style="font-size: 0.85rem; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px;">Instruction Stream</h4>
+                                <div id="tac-vm-list"></div>
+                            </div>
+                            <div class="registers-box">
+                                <h4>Virtual Machine Registers</h4>
+                                <div class="vm-registers-grid" id="vm-registers-grid"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- AUTOMATED TEST SUITE -->
+    <section class="section-tests" id="test-suite">
+        <div class="container">
+            <div class="tests-header-row">
+                <div>
+                    <h2 style="font-size: 1.6rem; font-weight: 800; margin-bottom: 4px;">Automated Test Suite Runner</h2>
+                    <p class="text-secondary">Validation matrix verifying compiler phases, edge cases, and diagnostics.</p>
+                </div>
+                <div style="display: flex; align-items: center; gap: 14px;">
+                    <div id="test-summary-badge"></div>
+                    <button class="btn-primary" id="btn-run-tests">Run All Tests</button>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead><tr><th>#</th><th>Test Name</th><th>Input Expression</th><th>Expected Phase</th><th>Status</th><th>Diagnostics</th><th>Action</th></tr></thead>
+                    <tbody id="test-results-tbody"></tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- PYTHON CLI SECTION -->
+    <section class="section-arch" id="source-code">
+        <div class="container">
+            <h2 style="font-size: 1.6rem; font-weight: 800; margin-bottom: 8px;">Standalone Python CLI Script</h2>
+            <div style="margin-top: 16px; background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 18px;">
+                <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 12px;">
+                    <h4 style="font-size: 1rem; color: var(--accent-cyan); margin: 0;">Run from Terminal:</h4>
+                    <a href="mini_compiler.py" download="mini_compiler.py" class="btn-sm-copy" style="text-decoration: none;">Download mini_compiler.py</a>
+                </div>
+                <div style="background: #000; padding: 12px 16px; border-radius: var(--radius-sm); font-family: var(--font-mono); color: #a5f3fc; font-size: 0.9rem;">
+                    python mini_compiler.py "3 + 4 * (2 - 1)"
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container footer-content">
+            <div><strong>Mini Compiler for Arithmetic Expressions</strong></div>
+            <div>Built by <strong>Nitish</strong> &bull; <strong>Teja</strong> &bull; <strong>Gagan</strong></div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="compiler.js"></script>
+    <script src="visualizer.js"></script>
+    <script src="tests.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

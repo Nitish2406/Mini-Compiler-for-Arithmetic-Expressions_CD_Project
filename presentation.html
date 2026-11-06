@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentation Deck | Mini Compiler for Arithmetic Expressions</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { min-height: 100vh; display: flex; flex-direction: column; }
+        .deck-page-wrapper { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 32px 0; }
+        .slides-wrapper { min-height: 520px; }
+        .fs-btn { background: var(--bg-tertiary); border: 1px solid var(--border-color); color: var(--text-secondary); border-radius: var(--radius-sm); padding: 6px 12px; font-size: 0.8rem; cursor: pointer; }
+        .fs-btn:hover { color: var(--text-primary); border-color: var(--border-hover); }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="brand-wrapper">
+                <div class="brand-icon">&lt;/&gt;</div>
+                <div class="brand-title">
+                    <span>Mini Compiler</span>
+                </div>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Live Studio</a></li>
+                <li><a href="presentation.html" style="color: var(--accent-indigo);">Presentation</a></li>
+                <li><a href="architecture.html">Architecture</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="btn-theme-toggle" id="theme-toggle-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                    <span>Mode</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- DECK MAIN -->
+    <main class="deck-page-wrapper">
+        <div class="container deck-container">
+            <div class="deck-header">
+                <div>
+                    <h2 style="font-size: 1.4rem; font-weight: 800;">Slide Presentation Deck</h2>
+                    <span style="font-size: 0.85rem; color: var(--text-muted);">Navigate with Left / Right arrow keys or buttons</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span class="tab-badge" id="slide-current-counter">Slide 1 of 11</span>
+                    <button class="fs-btn" id="fs-toggle-btn">⛶ Fullscreen</button>
+                </div>
+            </div>
+
+            <div class="deck-progress-track">
+                <div class="deck-progress-fill" id="slide-progress-bar"></div>
+            </div>
+
+            <div class="slides-wrapper" id="deck-wrapper">
+                <!-- Slide 1: Title -->
+                <div class="slide-card slide-active" data-slide="1">
+                    <div class="title-slide-content">
+                        <h1>Mini Compiler for<br>Arithmetic Expressions</h1>
+                        <p style="font-size: 1.15rem; color: var(--text-secondary); max-width: 600px; margin: 0 auto;">
+                            A lightweight compiler for arithmetic expressions — covering lexical analysis, parsing, semantic checks, and code generation with evaluation.
+                        </p>
+                        <div class="authors-grid">
+                            <div class="author-card">
+                                <div class="author-name">Nitish</div>
+                            </div>
+                            <div class="author-card">
+                                <div class="author-name">Teja</div>
+                            </div>
+                            <div class="author-card">
+                                <div class="author-name">Gagan</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 2: Introduction -->
+                <div class="slide-card" data-slide="2">
+                    <div class="slide-meta-tag">Slide 2 &bull; Background &amp; Motivation</div>
+                    <h2 class="slide-title">Introduction</h2>
+                    <div class="slide-body">
+                        <p>Arithmetic expressions such as <code>3 + 4 * (2 - 1)</code> are the classic starting point for studying how compilers work.</p>
+                        <p style="margin-top: 12px;">Evaluating an expression correctly means respecting operator precedence and parentheses — a compilation problem that uses the same phases as any programming language.</p>
+                        <h4 style="margin-top: 20px; color: var(--accent-indigo);">Why build a compiler for expressions?</h4>
+                        <ul>
+                            <li><strong>Text must be tokenized, parsed &amp; validated:</strong> Raw characters cannot be computed directly.</li>
+                            <li><strong>Errors must be caught before evaluation:</strong> Strict separation of compile-time and runtime.</li>
+                            <li><strong>A structured representation (AST) drives evaluation:</strong> Encodes syntactic hierarchy.</li>
+                            <li><strong>Precedence &amp; parentheses need a formal grammar:</strong> Solved through recursive-descent parsing.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Slide 3: Objectives -->
+                <div class="slide-card" data-slide="3">
+                    <div class="slide-meta-tag">Slide 3 &bull; Goals</div>
+                    <h2 class="slide-title">Objectives</h2>
+                    <div class="slide-body">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 14px;">
+                            <div class="overview-card">
+                                <h4 style="color: var(--accent-cyan); margin-bottom: 6px;">1. Tokenize Input</h4>
+                                <p style="font-size: 0.9rem;">Design a lexical analyzer that converts the expression text into a clean stream of typed tokens.</p>
+                            </div>
+                            <div class="overview-card">
+                                <h4 style="color: var(--accent-indigo); margin-bottom: 6px;">2. Parse &amp; Validate</h4>
+                                <p style="font-size: 0.9rem;">Build a parser that checks expressions against a formal grammar and builds an AST.</p>
+                            </div>
+                            <div class="overview-card">
+                                <h4 style="color: var(--accent-amber); margin-bottom: 6px;">3. Check Semantics</h4>
+                                <p style="font-size: 0.9rem;">Verify operands, operators and divide-by-zero cases before evaluation.</p>
+                            </div>
+                            <div class="overview-card">
+                                <h4 style="color: var(--accent-emerald); margin-bottom: 6px;">4. Evaluate Result</h4>
+                                <p style="font-size: 0.9rem;">Translate the AST into three-address code and evaluate it to a final value.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 4: System Architecture -->
+                <div class="slide-card" data-slide="4">
+                    <div class="slide-meta-tag">Slide 4 &bull; Architecture</div>
+                    <h2 class="slide-title">System Architecture</h2>
+                    <div class="slide-body">
+                        <p>The compiler pipeline — from raw expression text to a computed result:</p>
+                        <div style="background: var(--bg-tertiary); padding: 18px; border-radius: var(--radius-md); margin: 16px 0; font-family: var(--font-mono); font-size: 0.88rem; line-height: 1.8;">
+                            Source Input (3 + 4 * 2) &rarr; Lexical Analyzer (Tokens) &rarr; Parser (AST)<br>
+                            &rarr; Semantic Analyzer (Validated AST) &rarr; Intermediate Code Gen (TAC) &rarr; Executor (Result Value)
+                        </div>
+                        <p>Each stage passes a validated, richer representation of the expression to the next — mirroring a general-purpose compiler's front end and back end.</p>
+                    </div>
+                </div>
+
+                <!-- Slide 5: Phase 1 -->
+                <div class="slide-card" data-slide="5">
+                    <div class="slide-meta-tag">Slide 5 &bull; Phase 1</div>
+                    <h2 class="slide-title">Phase 1 — Lexical Analysis</h2>
+                    <div class="slide-body">
+                        <ul>
+                            <li>Scans the raw expression string character by character.</li>
+                            <li>Recognizes integer and decimal numbers.</li>
+                            <li>Identifies operators (<code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>^</code>) and parentheses.</li>
+                            <li>Strips whitespace between tokens.</li>
+                            <li>Reports illegal characters as lexical errors.</li>
+                        </ul>
+                        <div style="margin-top: 16px; background: var(--bg-tertiary); padding: 14px; border-radius: var(--radius-md);">
+                            <strong>Example — Tokenized Output: <code>3 + 4 * (2 - 1)</code></strong>
+                            <div style="font-family: var(--font-mono); font-size: 0.85rem; margin-top: 8px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;">
+                                <span>3 : NUMBER</span>
+                                <span>+ : PLUS</span>
+                                <span>4 : NUMBER</span>
+                                <span>* : MULTIPLY</span>
+                                <span>( : LPAREN</span>
+                                <span>2 : NUMBER</span>
+                                <span>- : MINUS</span>
+                                <span>1 : NUMBER</span>
+                                <span>) : RPAREN</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 6: Phase 2 -->
+                <div class="slide-card" data-slide="6">
+                    <div class="slide-meta-tag">Slide 6 &bull; Phase 2</div>
+                    <h2 class="slide-title">Phase 2 — Syntax Analysis (Parsing)</h2>
+                    <div class="slide-body">
+                        <ul>
+                            <li>Consumes the token stream from the lexer.</li>
+                            <li>Applies a context-free grammar for arithmetic expressions.</li>
+                            <li>Uses recursive-descent parsing (<code>expr &rarr; term &rarr; factor</code>).</li>
+                            <li>Builds a parse tree / Abstract Syntax Tree (AST).</li>
+                            <li>Reports syntax errors with the offending token &amp; position.</li>
+                        </ul>
+                        <div style="background: var(--bg-tertiary); padding: 14px; border-radius: var(--radius-md); margin-top: 14px;">
+                            <strong>Resulting AST Structure:</strong>
+                            <p style="font-size: 0.9rem; margin-top: 4px;">The AST encodes precedence and parentheses: <code>*</code> binds tighter than <code>+</code>.</p>
+                            <code style="color: var(--accent-indigo);">ADD_EXPR &rarr; LEFT(3) &bull; OP(+) &bull; RIGHT( 4 * (2 - 1) )</code>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 7: Phase 3 -->
+                <div class="slide-card" data-slide="7">
+                    <div class="slide-meta-tag">Slide 7 &bull; Phase 3</div>
+                    <h2 class="slide-title">Phase 3 — Semantic Analysis</h2>
+                    <div class="slide-body">
+                        <ul>
+                            <li>Walks the AST to verify every node is well-formed.</li>
+                            <li>Confirms every operator has the operands it needs.</li>
+                            <li>Checks operand types (<code>int</code> vs. <code>float</code>) and promotes when mixed.</li>
+                            <li>Detects division by zero in constant sub-expressions before runtime.</li>
+                            <li>Produces a fully validated AST ready for code generation.</li>
+                        </ul>
+                        <div style="margin-top: 14px; padding: 12px; background: rgba(244, 63, 94, 0.1); border-left: 3px solid var(--accent-rose); border-radius: 4px;">
+                            <strong>Example error caught:</strong>
+                            <div style="font-family: var(--font-mono); font-size: 0.9rem; color: var(--accent-rose);">"Semantic Error: division by zero in 8 / (4 - 4)"</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 8: Phase 4 -->
+                <div class="slide-card" data-slide="8">
+                    <div class="slide-meta-tag">Slide 8 &bull; Phase 4</div>
+                    <h2 class="slide-title">Phase 4 — Code Generation &amp; Execution</h2>
+                    <div class="slide-body">
+                        <ul>
+                            <li>The validated AST is translated into three-address code (TAC) with temporaries.</li>
+                            <li>The executor evaluates this intermediate code instruction by instruction.</li>
+                            <li>Respects precedence: <code>*</code> and <code>/</code> are generated before <code>+</code> and <code>-</code>.</li>
+                            <li>Produces the final numeric result returned to the user.</li>
+                        </ul>
+                        <div style="background: #000; padding: 14px; border-radius: var(--radius-md); margin-top: 14px; font-family: var(--font-mono); color: #38bdf8;">
+                            <strong>Generated TAC:</strong><br>
+                            t1 = 2 - 1<br>
+                            t2 = 4 * t1<br>
+                            t3 = 3 + t2<br>
+                            <span style="color: var(--accent-emerald);">Result = 7</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 9: Tools & Technologies -->
+                <div class="slide-card" data-slide="9">
+                    <div class="slide-meta-tag">Slide 9 &bull; Implementation</div>
+                    <h2 class="slide-title">Tools &amp; Technologies</h2>
+                    <div class="slide-body">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 14px;">
+                            <div class="overview-card">
+                                <h4 style="color: var(--accent-indigo);">1. Language</h4>
+                                <p style="font-size: 0.9rem;">Python 3 &amp; Modern ES6 JavaScript for implementing lexer, parser, analyzer &amp; evaluator.</p>
+                            </div>
+                            <div class="overview-card">
+                                <h4 style="color: var(--accent-cyan);">2. Parsing Approach</h4>
+                                <p style="font-size: 0.9rem;">Hand-written recursive-descent parser over an arithmetic expression grammar.</p>
+                            </div>
+                            <div class="overview-card">
+                                <h4 style="color: var(--accent-purple);">3. Intermediate Form</h4>
+                                <p style="font-size: 0.9rem;">Three-address code held as lists of quadruples <code>[OP, ARG1, ARG2, RES]</code> &amp; temporaries.</p>
+                            </div>
+                            <div class="overview-card">
+                                <h4 style="color: var(--accent-emerald);">4. Testing</h4>
+                                <p style="font-size: 0.9rem;">Custom automated test suite of valid, edge-case, and malformed expressions.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 10: Testing & Results -->
+                <div class="slide-card" data-slide="10">
+                    <div class="slide-meta-tag">Slide 10 &bull; Validation</div>
+                    <h2 class="slide-title">Testing &amp; Results</h2>
+                    <div class="slide-body">
+                        <ul>
+                            <li>Well-formed expressions with <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>^</code> and parentheses evaluate correctly.</li>
+                            <li>Malformed expressions are rejected at the correct phase (lexical, syntax, or semantic).</li>
+                            <li>Error messages identify the offending token and its exact column position.</li>
+                            <li>Each phase's intermediate output (tokens, AST, TAC) can be inspected independently.</li>
+                        </ul>
+                        <div style="background: var(--bg-tertiary); padding: 14px; border-radius: var(--radius-md); margin-top: 14px; font-family: var(--font-mono);">
+                            <span style="color: var(--text-muted);">Sample test outcome:</span><br>
+                            Input: <code>3 + * 4;</code><br>
+                            <span style="color: var(--accent-rose);">Output: Syntax Error — unexpected token '*' near position 4</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 11: Conclusion & Future Scope -->
+                <div class="slide-card" data-slide="11">
+                    <div class="slide-meta-tag">Slide 11 &bull; Wrap Up</div>
+                    <h2 class="slide-title">Conclusion &amp; Future Scope</h2>
+                    <div class="slide-body">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                            <div>
+                                <h4 style="color: var(--accent-emerald); margin-bottom: 8px;">Conclusion</h4>
+                                <ul style="margin-left: 16px;">
+                                    <li>Successfully implemented all 4 core phases of a compiler for arithmetic expressions.</li>
+                                    <li>Reinforces lexical, syntax, and semantic analysis with AST-driven evaluation.</li>
+                                    <li>Produces correct results for valid expressions and clear diagnostics for invalid ones.</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 style="color: var(--accent-indigo); margin-bottom: 8px;">Future Scope</h4>
+                                <ul style="margin-left: 16px;">
+                                    <li>Support variables, assignments, and a persistent symbol table.</li>
+                                    <li>Add mathematical functions (<code>sqrt</code>, <code>sin</code>, <code>abs</code>).</li>
+                                    <li>Implement compiler optimizations such as constant folding.</li>
+                                    <li>Generate real assembly (x86 / ARM) or bytecode instead of interpreting TAC.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div style="text-align: center; margin-top: 24px; font-size: 1.3rem; font-weight: 800; color: var(--accent-indigo);">
+                            Thank You!
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide Controls -->
+            <div class="slide-deck-controls">
+                <button class="btn-secondary" id="slide-prev-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                    Previous
+                </button>
+                <div style="font-size: 0.85rem; color: var(--text-muted);">Mini Compiler for Arithmetic Expressions</div>
+                <button class="btn-secondary" id="slide-next-btn">
+                    Next
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container footer-content">
+            <div><strong>Mini Compiler for Arithmetic Expressions</strong></div>
+            <div>Built by <strong>Nitish</strong> &bull; <strong>Teja</strong> &bull; <strong>Gagan</strong></div>
+        </div>
+    </footer>
+
+    <script>
+        const slides = document.querySelectorAll('.slide-card');
+        const prevBtn = document.getElementById('slide-prev-btn');
+        const nextBtn = document.getElementById('slide-next-btn');
+        const counter = document.getElementById('slide-current-counter');
+        const progress = document.getElementById('slide-progress-bar');
+        const fsBtn = document.getElementById('fs-toggle-btn');
+        let currentIdx = 0;
+
+        function updateSlide(idx) {
+            currentIdx = Math.max(0, Math.min(idx, slides.length - 1));
+            slides.forEach((s, i) => s.classList.toggle('slide-active', i === currentIdx));
+            if (counter) counter.textContent = `Slide ${currentIdx + 1} of ${slides.length}`;
+            if (progress) progress.style.width = `${((currentIdx + 1) / slides.length) * 100}%`;
+            if (prevBtn) prevBtn.disabled = currentIdx === 0;
+            if (nextBtn) nextBtn.disabled = currentIdx === slides.length - 1;
+        }
+
+        if (prevBtn) prevBtn.addEventListener('click', () => updateSlide(currentIdx - 1));
+        if (nextBtn) nextBtn.addEventListener('click', () => updateSlide(currentIdx + 1));
+
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') updateSlide(currentIdx + 1);
+            else if (e.key === 'ArrowLeft') updateSlide(currentIdx - 1);
+            else if (e.key.toLowerCase() === 'f') toggleFullscreen();
+        });
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(() => {});
+            } else {
+                document.exitFullscreen().catch(() => {});
+            }
+        }
+        if (fsBtn) fsBtn.addEventListener('click', toggleFullscreen);
+
+        // Theme Toggle
+        const themeBtn = document.getElementById('theme-toggle-btn');
+        const savedTheme = localStorage.getItem('mini_compiler_theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        if (themeBtn) {
+            themeBtn.addEventListener('click', () => {
+                const current = document.documentElement.getAttribute('data-theme') || 'dark';
+                const next = current === 'dark' ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-theme', next);
+                localStorage.setItem('mini_compiler_theme', next);
+            });
+        }
+        updateSlide(0);
+    </script>
+</body>
+</html>
